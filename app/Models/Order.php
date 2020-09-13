@@ -13,4 +13,14 @@ class Order extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function contract()
+    {
+        return $this->hasOne(Contract::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }
