@@ -18,6 +18,7 @@ class CreateTagsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         factory(Tag::class, 10)->create();
