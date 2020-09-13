@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->text('description');
             $table->double('cost', 8, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
