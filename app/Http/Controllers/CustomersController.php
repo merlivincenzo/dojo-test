@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Contract;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class CustomersController extends Controller
@@ -73,8 +75,19 @@ class CustomersController extends Controller
      */
     public function destroy(Customer $customer)
     {
+        Contract::where('customer_id', $customer->id)->delete();
+        Order::where('customer_id', $customer->id)->delete();
         $customer->delete();
 
-        return redirect()->route('customers.index')->withMessage('Customer deleted successfully');
+        return redirect()->route('customers.index')->withMessage('Customer deleted successfully, click <a href="' . route('customers.restore', $customer) . '">here</a> to restore');
+    }
+
+    public function restore($customerId)
+    {
+        Customer::withTrashed()->find($customerId)->restore();
+        Contract::withTrashed()->where('customer_id', $customerId)->restore();
+        Order::withTrashed()->where('customer_id', $customerId)->restore();
+
+        return redirect()->route('customers.index')->withMessage('Customer restored successfully');
     }
 }
