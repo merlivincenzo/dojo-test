@@ -11,7 +11,7 @@ class Order extends Model
     
     public function customer()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function contract()
